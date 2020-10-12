@@ -76,6 +76,9 @@ const (
 	// ArgoCDDefaultDexHTTPPort is the default HTTP listen port for Dex.
 	ArgoCDDefaultDexHTTPPort = 5556
 
+	// ArgoCDDefaultDexMetricsPort is the default prometheus metrics port for Dex.
+	ArgoCDDefaultDexMetricsPort = 5558
+
 	// ArgoCDDefaultDexServiceAccountName is the default Service Account name for the Dex server.
 	ArgoCDDefaultDexServiceAccountName = "argocd-dex-server"
 
@@ -182,7 +185,7 @@ const (
 	ArgoCDDefaultRedisSuffix = "redis"
 
 	// ArgoCDDefaultRedisVersion is the Redis container image tag to use when not specified.
-	ArgoCDDefaultRedisVersion = "sha256:4be7fdb131e76a6c6231e820c60b8b12938cf1ff3d437da4871b9b2440f4e385" // 5.0.3
+	ArgoCDDefaultRedisVersion = "sha256:96bdb5e2984b15e3cf4de74077f650c911cb26ec0981e0772df35a1a5cb19798" // 5.0.8
 
 	// ArgoCDDefaultRedisVersionHA is the Redis container image tag to use when not specified in HA mode.
 	ArgoCDDefaultRedisVersionHA = "sha256:27e139dd0476133961d36e5abdbbb9edf9f596f80cc2f9c2e8f37b20b91d610d" // 5.0.6-alpine

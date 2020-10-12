@@ -434,6 +434,9 @@ func (r *ReconcileArgoCD) reconcileDexDeployment(cr *argoprojv1a1.ArgoCD) error 
 			}, {
 				ContainerPort: common.ArgoCDDefaultDexGRPCPort,
 				Name:          "grpc",
+			}, {
+				ContainerPort: common.ArgoCDDefaultDexMetricsPort,
+				Name:          "metrics",
 			},
 		},
 		Resources: getDexResources(cr),
