@@ -23,6 +23,10 @@ import (
 
 // reconcileStatus will ensure that all of the Status properties are updated for the given ArgoCD.
 func (r *ReconcileArgoCD) reconcileStatus(cr *argoprojv1a1.ArgoCD) error {
+	if err := r.reconcileStatusConditions(cr); err != nil {
+		return err
+	}
+
 	if err := r.reconcileStatusApplicationController(cr); err != nil {
 		return err
 	}
@@ -66,6 +70,12 @@ func (r *ReconcileArgoCD) reconcileStatusApplicationController(cr *argoprojv1a1.
 		cr.Status.ApplicationController = status
 		return r.client.Status().Update(context.TODO(), cr)
 	}
+	return nil
+}
+
+// reconcileStatusConditions will ensure that the Status Conditions are updated for the given ArgoCD.
+func (r *ReconcileArgoCD) reconcileStatusConditions(cr *argoprojv1a1.ArgoCD) error {
+
 	return nil
 }
 

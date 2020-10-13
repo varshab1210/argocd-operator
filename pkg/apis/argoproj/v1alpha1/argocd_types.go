@@ -76,6 +76,43 @@ type ArgoCDCertificateSpec struct {
 	SecretName string `json:"secretName"`
 }
 
+// ArgoCDConditionType is a valid value for ArgoCDCondition.Type
+type ArgoCDConditionType string
+
+// These are valid conditions of ArgoCD.
+const (
+	// ArgoCDPending indicates whether all containers in the pod are ready.
+	ArgoCDPending ArgoCDConditionType = "Pending"
+
+	// ArgoCDInitialized means that all components for the ArgoCD have started successfully.
+	ArgoCDInitialized ArgoCDConditionType = "Initialized"
+
+	// ArgoCDReady means the ArgoCD is able to service requests.
+	ArgoCDReady ArgoCDConditionType = "Ready"
+)
+
+// ArgoCDCondition contains details for the current condition of this ArgoCD.
+type ArgoCDCondition struct {
+	// Last time the condition transitioned from one status to another.
+	// +optional
+	LastTransitionTime metav1.Time `json:"lastTransitionTime,omitempty" protobuf:"bytes,4,opt,name=lastTransitionTime"`
+
+	// Unique, one-word, CamelCase reason for the condition's last transition.
+	// +optional
+	Reason string `json:"reason,omitempty" protobuf:"bytes,5,opt,name=reason"`
+
+	// Type is the type of the condition.
+	Type ArgoCDConditionType `json:"type" protobuf:"bytes,1,opt,name=type,casttype=PodConditionType"`
+
+	// Status is the status of the condition.
+	// Can be True, False, Unknown.
+	Status metav1.ConditionStatus `json:"status" protobuf:"bytes,2,opt,name=status,casttype=ConditionStatus"`
+
+	// Human-readable message indicating details about last transition.
+	// +optional
+	Message string `json:"message,omitempty" protobuf:"bytes,6,opt,name=message"`
+}
+
 // ArgoCDDexSpec defines the desired state for the Dex server component.
 type ArgoCDDexSpec struct {
 	//Config is the dex connector configuration.
@@ -407,6 +444,12 @@ type ArgoCDStatus struct {
 	// Failed: At least one of the  Argo CD application controller component Pods had a failure.
 	// Unknown: For some reason the state of the Argo CD application controller component could not be obtained.
 	ApplicationController string `json:"applicationController,omitempty"`
+
+	// Current service state of ArgoCD.
+	// +optional
+	// +patchMergeKey=type
+	// +patchStrategy=merge
+	Conditions []ArgoCDCondition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,2,rep,name=conditions"`
 
 	// Dex is a simple, high-level summary of where the Argo CD Dex component is in its lifecycle.
 	// There are five possible dex values:
